@@ -3,7 +3,7 @@ var mraa = require("mraa");
 
 //GROVE Kit A0 Connector --> Aio(0)
 var myAnalogPin0 = new mraa.Aio(0); //temperature
-var myAnalogPin2 = new mraa.Aio(2);
+var myAnalogPin2 = new mraa.Aio(1);
 
 
 function getLightSensor(res) {
@@ -48,10 +48,6 @@ function getTempSensor(res) {
         temperature: fahrenheit_temperature
     });
 }
-
-
-
-console.log("Sample Reading Grove Kit Temperature Sensor");
 
 var port = process.env.PORT || 8080; // set our port
 
@@ -103,13 +99,15 @@ router.route('/temperature')
 
 });
 
+//light route
 router.route('/light')
 
 .get(function(req, res) {
     getLightSensor(res);
 });
 
-router.route('/loudness')
+//sound route
+router.route('/sound')
     .post(function(req, res) {
         res.json({
             message: 'loudness post'
