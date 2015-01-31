@@ -8,7 +8,7 @@ function loudnessSensor(res) {
 
     console.log("Loudness value (higher is louder): " + loudness);
     res.json({
-        message: loudness
+        sound: loudness
     });
 }
 
