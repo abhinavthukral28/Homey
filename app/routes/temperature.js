@@ -22,7 +22,7 @@ module.exports = (function() {
 
         //temperature get
         .get(function(req, res) {
-            func.getTempSensor(res.json);
+            func.getTempSensor(res.json.bind(res));
             //insert code to return temperature data
 
         });

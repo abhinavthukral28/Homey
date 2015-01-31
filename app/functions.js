@@ -1,12 +1,13 @@
 /**
  * Created by Jan on 1/31/2015.
  */
+'use strict';
 /*
  Function: getTempSensor(res)
  Parameters: res - response object
  Description: Read Temperature Sensor and send response
  */
-function getTempSensor(callback) {
+module.exports.getTempSensor = function getTempSensor(callback) {
     'use strict';
     var B = 3975,
         mraa = require('mraa'),
@@ -21,9 +22,9 @@ function getTempSensor(callback) {
     callback({
         temperature: celsius_temperature
     });
-}
+};
 
-function loudnessSensor(callback) {
+module.exports.loudnessSensor = function loudnessSensor(callback) {
     var loudnessSensor = require('jsupm_groveloudness'),
         myLoudnessSensor = new loudnessSensor.GroveLoudness(2),
         loudness = myLoudnessSensor.value();
@@ -32,9 +33,9 @@ function loudnessSensor(callback) {
     callback({
         sound: loudness
     });
-}
+};
 
-function getLightSensor(callback) {
+module.exports.getLightSensor = function getLightSensor(callback) {
     var mraa = require('mraa'),
         light_sensor = new mraa.Aio(1),
         light_value = light_sensor.read();
@@ -45,13 +46,4 @@ function getLightSensor(callback) {
         light: light_value
     });
 
-}
-
-module.exports(function() {
-    'use strict';
-    return {
-        getTempSensor: getTempSensor,
-        loudnessSensor: loudnessSensor,
-        getLightSensor: getLightSensor
-    };
-})();
+};

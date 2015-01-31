@@ -4,7 +4,7 @@
 
 function mergeJson(json1, json2) {
     for (var key in json2) {
-        if (json2.hasOwnProperty(key) && typeof json1[key] == undefined ) {
+        if (json2.hasOwnProperty(key) && !(key in json1)) {
             json1[key] = json2[key];
         }
     }

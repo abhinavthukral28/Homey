@@ -8,7 +8,7 @@ module.exports = (function() {
     api.route('/light')
 
         .get(function(req, res) {
-            func.getLightSensor(res.json);
+            func.getLightSensor(res.json.bind(res));
         });
 
     return api;

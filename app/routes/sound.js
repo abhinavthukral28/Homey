@@ -17,7 +17,7 @@ module.exports = (function() {
         })
         .get(function(req, res) {
             console.log("Checking Loudness");
-            func.loudnessSensor(res.json);
+            func.loudnessSensor(res.json.bind(res));
         });
 
     return api;
