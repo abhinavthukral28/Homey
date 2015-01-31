@@ -2,16 +2,25 @@ var B = 3975;
 var mraa = require("mraa");
 
 //GROVE Kit A0 Connector --> Aio(0)
-var myAnalogPin = new mraa.Aio(0);
+var myAnalogPin0 = new mraa.Aio(0); //temperature
+var myAnalogPin2 = new mraa.Aio(2);
 
+
+function getLightSensor(res) {
+    var light_value = myAnalogPin2.read();
+    light_value = Math.round( light_value*.1);
+    console.log("Light value is: " + light_value);
+    res.json({ light: light_value });
+
+}
 /*
  Function: startSensorWatch(socket)
  Parameters: socket - client communication channel
  Description: Read Temperature Sensor and send temperature in degrees of Fahrenheit every 4 seconds
  */
-function startSensorWatch(res) {
+function getTempSensor(res) {
     'use strict';
-    var a = myAnalogPin.read();
+    var a = myAnalogPin0.read();
     console.log("Analog Pin (A0) Output: " + a);
     //console.log("Checking....");
 
@@ -21,8 +30,10 @@ function startSensorWatch(res) {
     //console.log("Celsius Temperature "+celsius_temperature);
     var fahrenheit_temperature = (celsius_temperature * (9 / 5)) + 32;
     console.log("Fahrenheit Temperature: " + fahrenheit_temperature);
-    res.json({ message: fahrenheit_temperature });
+    res.json({ temperature: fahrenheit_temperature });
 }
+
+
 
 console.log("Sample Reading Grove Kit Temperature Sensor");
 
@@ -65,28 +76,16 @@ router.route('/temperature')
 
     //temperature get
     .get(function(req, res) {
-        console.log("Sensor watch begin");
-        startSensorWatch(res);
+        getTempSensor(res);
         //insert code to return temperature data
 
     });
 
+router.route('/light')
 
-//Attach a 'connection' event handler to the server
-//io.sockets.on('connection', function (socket) {
-//    'use strict';
-//    console.log('a user connected');
-//    //Emits an event along with a message
-//    socket.emit('connected', 'Welcome');
-//
-//    //Start watching Sensors connected to Galileo board
-//    startSensorWatch(socket);
-//
-//    //Attach a 'disconnect' event handler to the socket
-//    socket.on('disconnect', function () {
-//        console.log('user disconnected');
-//    });
-//});
+    .get(function(req, res) {
+       getLightSensor(res);
+    });
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
