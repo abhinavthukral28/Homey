@@ -21,7 +21,7 @@ function startSensorWatch(res) {
     //console.log("Celsius Temperature "+celsius_temperature);
     var fahrenheit_temperature = (celsius_temperature * (9 / 5)) + 32;
     console.log("Fahrenheit Temperature: " + fahrenheit_temperature);
-    res.json({ message: 'temperature get: ' + fahrenheit_temperature });
+    res.json({ message: fahrenheit_temperature });
 }
 
 console.log("Sample Reading Grove Kit Temperature Sensor");
