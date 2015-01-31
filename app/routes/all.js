@@ -28,7 +28,9 @@ module.exports = (function() {
                     func.getTempSensor(function (json2) {
                         var result = mergeJson(json0, json1);
                         result = mergeJson(result, json2);
-                        res.json(result);
+                        res.json({
+                            sensor: Object.keys(result).map(function(k) { var obj = {}; obj[k] = result[k]; return obj; })
+                        }); //turning to an array
                     });
                 });
             });
