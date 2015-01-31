@@ -1,18 +1,8 @@
 /**
  * Created by Jan on 1/31/2015.
  */
-function loudnessSensor(res) {
-    var loudnessSensor = require('jsupm_groveloudness'),
-        myLoudnessSensor = new loudnessSensor.GroveLoudness(2),
-        loudness = myLoudnessSensor.value();
-
-    console.log("Loudness value (higher is louder): " + loudness);
-    res.json({
-        sound: loudness
-    });
-}
-
-var express = require('express'); // call express
+var express = require('express'), // call express
+    func = require('../functions.js');
 
 module.exports = (function() {
     'use strict';
@@ -27,7 +17,7 @@ module.exports = (function() {
         })
         .get(function(req, res) {
             console.log("Checking Loudness");
-            loudnessSensor(res);
+            func.loudnessSensor(res.json);
         });
 
     return api;
