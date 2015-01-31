@@ -19,7 +19,7 @@ module.exports = (function() {
     var api = express.Router();
 
     //sound route
-    api.route('/all')
+    api.route('/allSensor')
 
         .get(function(req, res) {
             console.log("Sending all information");
