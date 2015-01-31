@@ -1,4 +1,4 @@
-//var B = 3975;
+
 
 // call the packages we need
 var express = require('express'), // call express
@@ -10,7 +10,7 @@ var port = process.env.PORT || 8080; // set our port
 //API's
 var light = require('./routes/light.js'),
     temperature = require('./routes/temperature.js'),
-    sound = require('./routes/sound.js')
+    sound = require('./routes/sound.js');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST

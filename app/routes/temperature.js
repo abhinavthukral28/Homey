@@ -8,7 +8,8 @@
  */
 function getTempSensor(res) {
     'use strict';
-    var mraa = require('mraa'),
+    var B = 3975,
+        mraa = require('mraa'),
         tempSensor = new mraa.Aio(0), //temperature
         a = tempSensor.read(),
         resistance = (1023 - a) * 10000 / a, //get the resistance of the sensor;
