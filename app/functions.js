@@ -18,7 +18,7 @@ module.exports.getTempSensor = function getTempSensor(callback) {
         fahrenheit_temperature = (celsius_temperature * (9 / 5)) + 32;
 
     console.log("Analog Pin (A0) Output: " + a);
-    console.log("Centigrade Temperature: " + celsius_temperature);
+    console.log("Centigrade Temperature: " + Math.round(celsius_temperature));
     callback({
         temperature: celsius_temperature
     });
