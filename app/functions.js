@@ -54,4 +54,4 @@ module.exports(function() {
         loudnessSensor: loudnessSensor,
         getLightSensor: getLightSensor
     };
-});
+})();
