@@ -17,7 +17,7 @@ module.exports = (function() {
     'use strict';
     var api = express.Router();
 
-    api.route('light')
+    api.route('/light')
 
         .get(function(req, res) {
             getLightSensor(res);
