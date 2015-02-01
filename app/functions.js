@@ -11,10 +11,21 @@
 var mraa = require('mraa'),
     tempSensor = new mraa.Aio(0),
     light_sensor = new mraa.Aio(1),
-    loudnessSensor = require('jsupm_groveloudness'),
-    myLoudnessSensor = new loudnessSensor.GroveLoudness(2),
+//    loudnessSensor = require('jsupm_groveloudness'),
+//    myLoudnessSensor = new loudnessSensor.GroveLoudness(2),
     LCD = require('jsupm_i2clcd'),
     myLcd = new LCD.Jhd1313m1(0, 0x3E, 0x62);
+
+var upmMicrophone = require("jsupm_mic");
+
+// Attach microphone to analog port A0
+var myMic = new upmMicrophone.Microphone(2);
+
+var threshContext = new upmMicrophone.thresholdContext;
+threshContext.averageReading = 0;
+threshContext.runningAverage = 0;
+threshContext.averagedOver = 2;
+var buffer = new upmMicrophone.uint16Array(128);
 
 module.exports.setLcd = function setLcd(callback) {
     myLcd.setCursor(0, 0);
@@ -24,7 +35,6 @@ module.exports.setLcd = function setLcd(callback) {
     myLcd.setColor(255, 255, 255);
     myLcd.setCursor(0, 1);
     myLcd.write('Edison Monitor');
-
 
 };
 
@@ -43,11 +53,21 @@ module.exports.getTempSensor = function getTempSensor(callback) {
 };
 
 module.exports.loudnessSensor = function loudnessSensor(callback) {
-    var loudness = myLoudnessSensor.value();
+    var thresh;
+    while(1)
+    {
+        var len = myMic.getSampledWindow(2, 128, buffer);
+        if (len)
+        {
+            thresh = myMic.findThreshold(threshContext, 30, buffer, len);
+            if (thresh) console.log("Threshold is " + thresh);
 
-    console.log("Loudness value (higher is louder): " + loudness);
+            break;
+        }
+    }
+
     callback({
-        sound: loudness
+        sound: thresh
     });
 };
 
