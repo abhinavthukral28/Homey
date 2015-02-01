@@ -1,3 +1,6 @@
+/**
+ * Created by Jan on 2/1/2015.
+ */
 var express = require('express'), // call express
     func = require('../functions.js');
 
@@ -5,17 +8,13 @@ module.exports = (function() {
     'use strict';
     var api = express.Router();
 
-    api.route('/light')
+    api.route('/lcd')
 
         .post(function(req, res) {
-            console.log(req.body["toggle"]);
-            func.toggleLED(req.body["toggle"]);
+            console.log("Set LCD to: " + req.body["text"]);
+            func.setLcd(req.body["text"]);
             res.json({"status": 200});
         })
-
-        .get(function(req, res) {
-            func.getLightSensor(res.json.bind(res));
-        });
 
     return api;
 })();

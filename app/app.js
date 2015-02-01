@@ -25,7 +25,8 @@ var light = require('./routes/light.js'),
     temperature = require('./routes/temperature.js'),
     sound = require('./routes/sound.js'),
     all = require('./routes/all.js'),
-    twilio = require('./routes/twilio.js')(twilioClient);
+    twilio = require('./routes/twilio.js')(twilioClient),
+    lcd = require('./routes/lcd.js');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -41,6 +42,7 @@ app.use('/api', temperature);
 app.use('/api', sound);
 app.use('/api', all);
 app.use('/api', twilio);
+app.use('/api', lcd);
 
 // START THE SERVER
 // =============================================================================

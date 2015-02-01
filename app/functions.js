@@ -16,6 +16,11 @@ var mraa = require('mraa'),
     LCD = require('jsupm_i2clcd'),
     myLcd = new LCD.Jhd1313m1(0, 0x3E, 0x62);
 
+// Load Grove module
+var groveSensor = require('jsupm_grove'),
+    led = new groveSensor.GroveLed(2);
+
+
 var upmMicrophone = require("jsupm_mic");
 
 // Attach microphone to analog port A0
@@ -27,14 +32,16 @@ threshContext.runningAverage = 0;
 threshContext.averagedOver = 2;
 var buffer = new upmMicrophone.uint16Array(128);
 
-module.exports.setLcd = function setLcd(callback) {
+module.exports.setLcd = function setLcd(text) {
+    if (!text || text == "") text = "This is homey!";
+    myLcd.clear();
     myLcd.setCursor(0, 0);
     // RGB Blue
     //myLcd.setColor(53, 39, 249);
     // RGB Red
     myLcd.setColor(255, 255, 255);
     myLcd.setCursor(0, 1);
-    myLcd.write('Edison Monitor');
+    myLcd.write(text);
 
 };
 
@@ -81,3 +88,8 @@ module.exports.getLightSensor = function getLightSensor(callback) {
     });
 
 };
+
+module.exports.toggleLED = function toggleLED(toggle) {
+    if (toggle == "1") led.on();
+    else led.off();
+}
