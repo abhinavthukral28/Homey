@@ -2,13 +2,16 @@
 var accountSid = 'ACb90ca8a55311aff697443481e485ba09',
     authToken = '09017f12b95041004e317af8d0775893',
     twilioModule = require('twilio')(accountSid, authToken);
-    twilioClient = {
-        client: twilioModule,
-        from: "+12268871679",
-        to: "",
-        enabled: false
-    };
+twilioClient = {
+    client: twilioModule,
+    from: "+12268871679",
+    to: "",
+    enabled: false
+};
 
+var func = require("./functions.js");
+
+func.setLcd();
 
 // call the packages we need
 var express = require('express'), // call express

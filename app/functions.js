@@ -12,7 +12,21 @@ var mraa = require('mraa'),
     tempSensor = new mraa.Aio(0),
     light_sensor = new mraa.Aio(1),
     loudnessSensor = require('jsupm_groveloudness'),
-    myLoudnessSensor = new loudnessSensor.GroveLoudness(2);
+    myLoudnessSensor = new loudnessSensor.GroveLoudness(2),
+    LCD = require('jsupm_i2clcd'),
+    myLcd = new LCD.Jhd1313m1(0, 0x3E, 0x62);
+
+module.exports.setLcd = function setLcd(callback) {
+    myLcd.setCursor(0, 0);
+    // RGB Blue
+    //myLcd.setColor(53, 39, 249);
+    // RGB Red
+    myLcd.setColor(255, 255, 255);
+    myLcd.setCursor(0, 1);
+    myLcd.write('Edison Monitor');
+
+
+};
 
 module.exports.getTempSensor = function getTempSensor(callback) {
     'use strict';
