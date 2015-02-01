@@ -20,8 +20,12 @@
         <activity
             android:name=".SettingsActivity"
             android:label="Settings">
+        </activity>
 
-            </activity>
+        <activity
+            android:name=".ScreenActivity"
+            android:label="LCD Settings">
+        </activity>
 
         <receiver android:name=".AlarmReceiver"></receiver>
     </application>

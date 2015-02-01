@@ -6,7 +6,9 @@ import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +22,16 @@ import com.getpebble.android.kit.PebbleKit.*;
 
 
 import com.github.lzyzsd.circleprogress.ArcProgress;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 
 public class MainActivity extends Activity {
@@ -75,13 +87,13 @@ public class MainActivity extends Activity {
                     light_image.setImageResource(R.drawable.lightbulb_off);
 
                 ImageView sound_image = (ImageView) findViewById(R.id.sound_icon);
-                if(s < 10)
+                if(s < 50)
                     sound_image.setImageResource(R.drawable.sound_icon);
-                else if (s < 20)
+                else if (s < 100)
                     sound_image.setImageResource(R.drawable.layer4);
-                else if (s < 30)
+                else if (s < 150)
                     sound_image.setImageResource(R.drawable.layer3);
-                else if (s < 40)
+                else if (s < 200)
                     sound_image.setImageResource(R.drawable.layer2);
                 else
                     sound_image.setImageResource(R.drawable.layer1);
@@ -106,6 +118,13 @@ public class MainActivity extends Activity {
         manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
     }
 
+    public void onLEDToggle(View v)
+    {
+        if (light)
+            new MyAsyncTask1().execute("0");
+        else
+            new MyAsyncTask1().execute("1");
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -126,6 +145,8 @@ public class MainActivity extends Activity {
             case R.id.pebble_conn:
                 checkConn();
                 return true;
+            case R.id.lcd:
+                screen();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -137,11 +158,69 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
+    public void screen()
+    {
+        Intent intent = new Intent(MainActivity.this, ScreenActivity.class);
+        startActivity(intent);
+    }
+
     public void checkConn()
     {
         Context context = getApplicationContext();
         boolean connected = PebbleKit.isWatchConnected(getApplicationContext());
         Log.i(getLocalClassName(), "Pebble is " + (connected ? "connected" : "not connected"));
         Toast.makeText(context, "Pebble is " + (connected ? "connected" : "not connected"), Toast.LENGTH_SHORT).show();
+    }
+
+    private class MyAsyncTask1 extends AsyncTask<String, Integer, Double> {
+
+        @Override
+        protected Double doInBackground(String... params) {
+            // TODO Auto-generated method stub
+            postData(params[0]);
+            return null;
+        }
+
+        protected void onPostExecute(Double result){
+            Toast.makeText(getApplicationContext(), "Preference updated", Toast.LENGTH_SHORT).show();
+        }
+        protected void onProgressUpdate(Integer... progress){
+        }
+
+        public void postData(String data) {
+            Log.d("Value", "Value: " + data);
+            Context mAppContext = getApplicationContext();
+            TelephonyManager tMgr = (TelephonyManager)mAppContext.getSystemService(Context.TELEPHONY_SERVICE);
+            String mPhoneNumber = tMgr.getLine1Number();
+
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost("http://142.1.249.219:8080/api/light");
+            Log.d("Value", "Value: " + data);
+            httpPost.setHeader("Content-type", "application/json");
+            httpPost.setHeader("Accept", "application/json");
+            JSONObject obj = new JSONObject();
+            try {
+                obj.put("toggle", String.valueOf(data));
+                httpPost.setEntity(new StringEntity(obj.toString(), "UTF-8"));
+            } catch (Exception e) {
+
+            }
+
+            //making POST request.
+            try {
+                HttpResponse response = httpClient.execute(httpPost);
+                // write response to log
+                Log.d("Http Post Response:", response.toString());
+            } catch (ClientProtocolException e) {
+                // Log exception
+                e.printStackTrace();
+            } catch (IOException e) {
+                // Log exception
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }

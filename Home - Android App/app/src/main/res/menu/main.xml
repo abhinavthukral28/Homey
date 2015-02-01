@@ -4,11 +4,16 @@
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="100"
-        android:showAsAction="never" />
+        android:showAsAction="always"
+        android:icon="@drawable/ic_settings"/>
 
     <item android:id="@+id/pebble_conn"
         android:title="Pebble"
         android:showAsAction="always"
         android:icon="@drawable/pebble"/>
 
+    <item android:id="@+id/lcd"
+        android:title="LCD Settings"
+        android:showAsAction="always"
+        android:icon="@drawable/screen"/>
 </menu>

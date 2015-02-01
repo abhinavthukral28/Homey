@@ -45,7 +45,8 @@
                     android:src="@drawable/lightbulb_off"
                     android:id="@+id/light_icon"
                     android:padding="10dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:onClick="onLEDToggle"/>
 
                 <TextView
                     android:layout_weight="5"
@@ -75,7 +76,6 @@
                     android:text="Sound"
                     android:gravity="center_horizontal"/>
             </LinearLayout>
-            </LinearLayout>
-
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
