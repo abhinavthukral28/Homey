@@ -23,14 +23,21 @@ module.exports = (function() {
 
         .get(function(req, res) {
             console.log("Sending all information");
-            func.getLightSensor(function(json0) {
+//            res.send("TEST");
+           func.getLightSensor(function(json0) {
                 func.loudnessSensor(function (json1) {
                     func.getTempSensor(function (json2) {
                         var result = mergeJson(json0, json1);
                         result = mergeJson(result, json2);
-                        res.json({
-                            sensor: Object.keys(result).map(function(k) { var obj = {}; obj[k] = result[k]; return obj; })
-                        }); //turning to an array
+                        try {
+                            res.setHeader('Content-Type', 'application/json');
+                            res.send({
+                                sensor: [result]
+                            });
+                        }
+                        catch(ex) {
+                            console.log(ex);
+                        }
                     });
                 });
             });
