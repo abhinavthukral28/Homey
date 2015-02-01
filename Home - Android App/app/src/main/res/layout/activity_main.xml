@@ -44,6 +44,7 @@
                     android:layout_height="fill_parent"
                     android:src="@drawable/lightbulb_off"
                     android:id="@+id/light_icon"
+                    android:padding="10dp"
                     android:layout_weight="1"/>
 
                 <TextView
@@ -63,7 +64,7 @@
                 <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:src="@drawable/sound_off"
+                    android:src="@drawable/sound_icon"
                     android:id="@+id/sound_icon"
                     android:layout_weight="1"/>
 

@@ -31,7 +31,8 @@ public class AsyncTaskParseJson extends AsyncTask<String, String, String> {
     final String TAG = "AsyncTaskParseJson.java";
 
     // set your json string url here
-    String Url = "http://techfest13.co.nf/temp.json";
+    String Url = "http://142.1.249.219:8080/api/allSensor";
+    String Url1 = "http://techfest13.co.nf/temp.json";
 
     // contacts JSONArray
     JSONArray dataJsonArr = null;
@@ -52,6 +53,16 @@ public class AsyncTaskParseJson extends AsyncTask<String, String, String> {
 
             // get the array of users
             dataJsonArr = json.getJSONArray("sensor");
+            Log.d("length: ", "length: " + dataJsonArr.length());
+
+           /* JSONObject c = dataJsonArr.getJSONObject(0);
+            temp = c.getInt("temperature");
+            light = c.getInt("light");
+            sound = c.getInt("sound");
+
+            Log.e(TAG, "temp: " + temp);
+            Log.e(TAG, "sound: " + sound);
+            Log.e(TAG, "light: " + light); */
 
             // loop through all users
             for (int i = 0; i < dataJsonArr.length(); i++) {
@@ -76,12 +87,10 @@ public class AsyncTaskParseJson extends AsyncTask<String, String, String> {
         }
 
         MainActivity.temp = temp;
+        MainActivity.sound = sound;
 
         if (light > 10) MainActivity.light = true;
         else MainActivity.light = false;
-        if (sound > 10) MainActivity.sound = true;
-        else MainActivity.sound = false;
-
         return null;
     }
 
